@@ -37,32 +37,45 @@ export default function App() {
   const taskState = useRef("Not done");
   const taskDeadline = useRef(null);
 
+  
   function createTask() {
     const newTask = {
       title: taskTitle.current.value,
       summary: taskSummary.current.value,
       state: taskState.current,
-      deadline: taskDeadline.current,
+      deadline: taskDeadline.current.value, // Use `.value` here to store the value, not the ref
     };
-
+  
     const updatedTasks = [...tasks, newTask];
     setTasks(updatedTasks);
     saveTasks(updatedTasks);
-  }
+    setOpened(false);
 
-  function deleteTask(index) {
-    const clonedTasks = [...tasks];
-    clonedTasks.splice(index, 1);
-    setTasks(clonedTasks);
-    saveTasks(clonedTasks);
   }
-
+  
   function updateTask(index, updatedTask) {
     const clonedTasks = [...tasks];
     clonedTasks[index] = updatedTask;
     setTasks(clonedTasks);
     saveTasks(clonedTasks);
   }
+  
+  function saveTasks(tasks) {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+  
+  function deleteTask(index) {
+    const clonedTasks = [...tasks];
+    clonedTasks.splice(index, 1);
+    setTasks(clonedTasks);
+    saveTasks(clonedTasks);
+  }
+  
+  function saveTasks(tasks) {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
+  }
+
+  
 
   function loadTasks() {
     let loadedTasks = localStorage.getItem("tasks");
