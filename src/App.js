@@ -43,7 +43,7 @@ export default function App() {
       title: taskTitle.current.value,
       summary: taskSummary.current.value,
       state: taskState.current,
-      deadline: taskDeadline.current.value, // Use `.value` here to store the value, not the ref
+      deadline: taskDeadline.current.value, 
     };
   
     const updatedTasks = [...tasks, newTask];
@@ -61,7 +61,6 @@ export default function App() {
   }
   
   function saveTasks(tasks) {
-    // Convert to a JSON string, but exclude ref objects
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }
   
