@@ -61,6 +61,7 @@ export default function App() {
   }
   
   function saveTasks(tasks) {
+    // Convert to a JSON string, but exclude ref objects
     localStorage.setItem("tasks", JSON.stringify(tasks));
   }
   
