@@ -89,7 +89,13 @@ export default function App() {
     });
     setTasks(sortedTasks);
   }
-
+  function sortTasksByDeadline() {
+    const sortedTasks = [...tasks].sort((a, b) =>
+      new Date(a.deadline) - new Date(b.deadline)
+    );
+    setTasks(sortedTasks);
+  }
+  
   function filterTasks(state) {
     loadTasks();
     setTasks((prev) => prev.filter((task) => task.state === state));
@@ -133,12 +139,15 @@ export default function App() {
               label="State"
               onChange={(value) => (taskState.current = value)}
             />
-            {/* <DatePicker
-              mt="md"
-              label="Deadline"
-              placeholder="Pick a date"
-              onChange={(value) => (taskDeadline.current = value)}
-            /> */}
+            <TextInput
+                mt={"md"}
+                type="date"
+                ref={taskDeadline}
+                placeholder={"Select Deadline"}
+                label={"Deadline"}
+                required
+              />
+
             <Group mt={"md"} position={"apart"}>
               <Button onClick={() => setOpened(false)} variant={"subtle"}>
                 Cancel
@@ -184,13 +193,15 @@ export default function App() {
                   onChange={(value) => (currentTask.state = value)}
                   label="State"
                 />
-                {/* <DatePicker
-                  mt="md"
-                  label="Deadline"
-                  placeholder="Pick a date"
-                  defaultValue={currentTask.deadline}
-                  onChange={(value) => (currentTask.deadline = value)}
-                /> */}
+                <TextInput
+                  mt={"md"}
+                  type="date"
+                  ref={taskDeadline}
+                  placeholder={"Select Deadline"}
+                  label={"Deadline"}
+                  required
+                />
+
                 <Group mt={"md"} position={"apart"}>
                   <Button
                     onClick={() => {
@@ -235,9 +246,9 @@ export default function App() {
               <Button onClick={() => sortTasks("Not done")}>
                 Show "Not done" first
               </Button>
-              <Button onClick={() => sortTasks("deadline")}>
-                Sort by Deadline
-              </Button>
+              
+              <Button onClick={sortTasksByDeadline}>Sort by Deadline</Button>;
+
             </Group>
             <Group position="apart" mt="md">
               <Button onClick={() => filterTasks("Done")}>Show only "Done"</Button>
